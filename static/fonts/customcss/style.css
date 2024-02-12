@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Poppins';
+    src: local("Poppins"), url("/static/fonts/Poppins/Poppins-Regular.ttf") format("truetype");
+}
+
+*,
+::after,
+::before{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    
+}
+body{
+    font-family: 'Poppins', Verdana, Geneva, Tahoma, sans-serif;
+    background-color: rgb(36, 40, 58);
+    color: #c7c6c6;
+
+}
+
+html{
+    font-size: 14px;
+    
+}

@@ -1,0 +1,85 @@
+{% extends "base/base.html" %}
+{% block content %}
+
+<style>
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .content .contenu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: rgba(84, 97, 102, 0.15);
+        width: 400px;
+        padding: 15px;
+        margin-top: 25px;
+    }
+
+    .content .contenu form {
+        width: 100%;
+    }
+
+    .content .contenu form input {
+        margin-bottom: 8px;
+    }
+
+    .content .contenu form button {
+        padding: 15px;
+    }
+</style>
+
+
+<div class="content">
+    <div id="message"></div>
+    <div id="error-message"></div>
+    <div class="contenu">
+        <form action="" method="post" id="FormData">
+            {% csrf_token %}
+            {{form}}
+            <button type="submit" class="btn btn-success btn-block" id="addlevel">Enregistrer</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    // pour soumettre le formulaire en ajax
+        $(document).on('submit','#FormData',function(e){
+        e.preventDefault();
+
+        $.ajax({
+        type:'POST',
+        url:'/start-quiz/submitData',
+        data:{
+            title: $('#id_title').val(),
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        },
+        //la  réponse HTTP pour signaler que le message a été envoyé avec succes
+        success: function(data){
+            $('#id_title').val('');
+                // title: $('#id_title').val('');
+            $('#message').html('<div class="alert alert-success">Les données ont été soumises avec succès.</div>');
+              
+            
+        // alert(data)
+        },
+        error: function(xhr, errmsg, err) {
+            // Afficher un message d'erreur dans la page HTML
+            $('#error-message').html('<div class="alert alert-danger">Une erreur est survenue lors de la soumission des données.</div>');
+        }
+        });
+       
+        
+        });
+</script>
+
+
+{% endblock content %}

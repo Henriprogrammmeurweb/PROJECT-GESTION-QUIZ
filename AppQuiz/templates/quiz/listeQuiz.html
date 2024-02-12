@@ -1,0 +1,163 @@
+{% extends "base/base.html" %}
+{% block content %}
+
+
+<style>
+    .alert {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .alert .reset a {
+        padding: 10px;
+    }
+
+    .contents {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .contents .questions {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        margin: 10px;
+        background-color: rgba(104, 120, 126, 0.15);
+        padding: 20px;
+        border-radius: 5px;
+        width: 950px;
+        height: 400px;
+        overflow: hidden;
+    }
+
+    #number {
+        text-align: center;
+        font-size: 1rem;
+        color: rgb(35, 100, 116);
+    }
+
+    /* .content {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .content .contenus {
+        margin: 50px 50px 10px 0px;
+        background-color: rgba(104, 120, 126, 0.15);
+        padding: 20px;
+        border-radius: 5px;
+        width: 100%;
+    }
+*/
+    .response .responses button {
+        padding: 15px;
+    }
+
+    .contents .questions .response {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .contents .questions .response .responses {
+        background-color: rgba(104, 120, 126, 0.15);
+        padding: 20px;
+        border-radius: 5px;
+        width: 100%;
+        height: 200px;
+        overflow: auto;
+    }
+
+    .contents .questions .response .responses form {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .contents .questions .response .responses form button {
+        margin-top: 10px;
+    }
+</style>
+
+
+
+
+
+<div class="alert">
+    {% for message in messages %}
+    <div class="alert alert-warning" role="alert">
+        <p>{{message}}</p>
+    </div>
+    {% endfor %}
+    <div class="reset">
+        {% if scoreQuizCategoryOfUser %}
+        <p>Score : {{scoreQuizCategoryOfUser}} % / 100 %</p>
+        {% if not list_quiz %}
+            <div class="alert alert-success">
+                <p>Tu as déjà fini cette serie, avec le score qui est en Haut là ! Tu peux recommencer</p>
+            </div>
+            <a href="{% url 'deletestartQuiz' getCategoryId.id %}" class="btn btn-success">Je rececommence</a>
+        {% endif %}
+        {% endif %}
+        <!-- <p>Score : {{getCategoryId.getUserResponse}} % / 100 %</p> -->
+        <p></p>
+    </div>
+</div>
+<div class="contents">
+    {% for list_quiz in list_quiz %}
+    <div class="questions">
+
+        <div class="content">
+            <div class="contenus">
+                <p id="number">{{forloop.counter}}</p>
+                <p>QUIZ : {{list_quiz.catgory.title}}, niveau : {{list_quiz.catgory.Level.title}}</p>
+                <p>Question : {{list_quiz.question}} ?</p>
+            </div>
+        </div>
+        <div class="response">
+            <div class="responses">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="data">
+                        {% for responses in list_quiz.answerquiz_set.all %}
+                        {% if responses in listeComprehension2 and responses.responseTrue == True %}
+                        <label for="responses {{responses.id}}">Réponse {{forloop.counter}} :
+                            {{responses.response}}</label>
+                        <input type="radio" id="{{responses.id}}" name="response" value="{{responses.id}}" required
+                            disabled>✅<br>
+                        {% elif responses in listeComprehension2 and responses.responseTrue == False %}
+                        <label for="responses {{responses.id}}">Réponse {{forloop.counter}} :
+                            {{responses.response}}</label>
+                            <input type="radio" id="{{responses.id}}" name="response" value="{{responses.id}}" required
+                                disabled> ❌<br>
+                        {% else %}
+                        <label for="responses {{responses.id}}">Réponse {{forloop.counter}} :
+                            {{responses.response}}</label>
+                        <input type="radio" id="{{responses.id}}" name="response" value="{{responses.id}}" required><br>
+                        {% endif %}
+                        {% endfor %}
+                        <button class="btn btn-success btn-block">Confirmer</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    {% empty %}
+    <div class="alert alert-danger">
+        <p>Aucun quiz n'a été trouvé pour cette série !</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

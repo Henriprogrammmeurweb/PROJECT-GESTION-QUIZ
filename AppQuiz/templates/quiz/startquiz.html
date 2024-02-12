@@ -1,0 +1,88 @@
+{% extends "base/base.html" %}
+{% block content %}
+
+
+<style>
+    .content{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .content .contenus{
+       margin-top: 20px;
+       background-color: rgba(104, 120, 126, 0.15);
+       padding: 20px;
+       border-radius: 5px;
+       width: 95%;
+    }
+    .content .contenus a{
+        padding: 15px;
+    }
+
+
+    .content-table{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        width: 95%;
+        margin-top: 10px;
+        box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.15);
+        padding: 9px;
+        background-color: rgba(84, 97, 102, 0.15);
+        border-top: 2px solid rgb(107, 95, 175);
+        
+    }
+    .content-table table{
+        color: #c7c6c6;
+        width: 100%;
+        background-color: rgba(104, 120, 126, 0.15);
+       
+        
+
+    }
+</style>
+
+
+
+
+<div class="content">
+    <div class="contenus">
+        <p>Bienvenue dans le quiz de : {{getCategoryId.title}}, niveau : {{getCategoryId.Level.title}}</p>
+        <p>Description : {{getCategoryId.description}}</p>
+        <a href="{% url 'FirstQuiz' getCategoryId.id %}" class="btn btn-success">Commencer</a>
+    </div>
+
+    <div class="content-table">
+        <div class="title">
+            <p>Les utilisateurs ayant joué à cette serie</p>
+        </div>
+        <table class="table">
+            <tr>
+                <th>N°</th>
+                <th>Nom</th>
+                <th>PostNom</th>
+                <th>Genre</th>
+                <th>Scores</th>
+            </tr>
+            {% for user in users %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{user.user__username}}</td>
+                <td>{{user.user__last_name}}</td>
+                <td>{{user.user__genre}}</td>
+                <td>{{user.total}} %</td>
+
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="5">Aucun résultat actuellement</td>
+              </tr>
+            {% endfor %}
+        </table>
+    </div>
+  
+</div>
+
+{% endblock content %}

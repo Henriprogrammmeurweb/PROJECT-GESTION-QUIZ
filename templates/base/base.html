@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome/css/font-awesome.css' %}" />
+    <link rel="stylesheet" href="{% static 'fonts/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/customcss/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <title>quizline</title>
+</head>
+<body id="body">
+    
+    {% include "sidebar/sidebar.html" %}
+    {% block content %}
+      
+    {% endblock content %}
+    {% include "footer/footer.html" %}
+
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+  .content{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+  }
+  .content .img{
+    width: 100px;
+    height: 100px;
+  }
+  .content .img img{
+    width: 100%;
+    height: 100%;
+  }
+  .content .contenu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+  }
+  .content .contenu h1{
+    font-size: x-large;
+    font-weight: normal;
+  }
+
+  .desc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .desc .img{
+    width: 300px;
+  }
+  .desc .img img{
+    width: 100%;
+    filter: brightness(0.50);
+  }
+
+
+  .link{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 30px 0px 30px 0px;
+  }
+  .link a{
+    border: 1px solid  rgb(107, 95, 175);
+    padding: 15px;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .link a:hover{
+    border: 1px solid rgb(179, 138, 64);
+  }
+</style>
+
+
+
+
+  <div class="content">
+    <div class="img">
+      <img src="{% static 'img/logoCode2.png' %}" alt="">
+    </div>
+    <div class="small-desc">
+      <p>Testez votre niveau en programmation Informatique avec Quizline </p>
+    </div>
+  </div>
+  <!-- <div class="contenu">
+    <h1>Apprendre à coder à c'est bon, tester ses compétences c'est mieux</h1>
+  </div> -->
+  <div class="desc">
+    <div class="img">
+      <img src="{% static 'img/logoCode1.png' %}" alt="">
+    </div>
+  </div>
+  <div class="link">
+    <a href="{% url 'signUp' %}">Je rejoins Quizline</a>
+  </div>
+  
+{% endblock content %}

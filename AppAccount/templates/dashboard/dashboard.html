@@ -1,0 +1,153 @@
+{% extends "base/base.html" %}
+{% block content %}
+
+<style>
+    .user{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        text-align: left;
+        width: 95%;
+        margin-top: 25px;
+    }
+    .user p{
+        color: rgb(116, 107, 124);
+        font-size: 1rem;
+        text-align: left;
+
+    }
+    .content{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .content .contenus{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .content .contenus .list-quiz{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        flex-direction: column;
+        margin: 8px;
+        width: 200px;
+        height: 115px;
+        background-color: rgba(104, 120, 126, 0.15);
+        border-radius: 5px;
+        text-align: center;
+        border-top: 2px solid rgb(107, 95, 175);
+        border-bottom: 1px solid rgb(119, 119, 119);
+    }
+    .content .contenus .list-quiz:hover{
+        background-color: rgba(84, 97, 102, 0.15);
+    }
+    .content .contenus a{
+        text-decoration: none;
+        color: #d4dcff;
+    }
+    .content .contenus a .list-quiz p{
+        text-transform: capitalize;
+    }
+    .content .contenus a .list-quiz p span{
+        color: rgb(119, 119, 119);
+    }
+    .content-table .title{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        text-align: left;
+    }
+    .content-table .title p{
+        color: rgb(116, 107, 124);
+        font-size: 15px;
+    }
+    .content-table{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        width: 95%;
+        margin-top: 35px;
+        box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.15);
+        padding: 9px;
+        background-color: rgba(84, 97, 102, 0.15);
+        border-top: 2px solid rgb(107, 95, 175);
+        
+    }
+    .content-table table{
+        color: #c7c6c6;
+        width: 100%;
+        background-color: rgba(104, 120, 126, 0.15);
+    }
+
+</style>
+
+<div class="content">
+    <div class="user">
+        {% if user.is_authenticated %}
+        <div class="username">
+            <p>Salut {{user.getUser}}</p>
+        </div>
+        {% endif %}
+    </div>
+    <div class="contenus">
+        {% for liste_quiz in liste_quiz %}
+        <a href="{% url 'startquiz' liste_quiz.id %}">
+            <div class="list-quiz">
+                {% if liste_quiz.getNumberQuiz <= 1 %}
+                <p>{{liste_quiz.getNumberQuiz}} Question<br>
+                {% else %}
+                <p>{{liste_quiz.getNumberQuiz}} Questions<br>
+                {% endif %}
+                     {{liste_quiz.title}}
+                    <br><span>Niveau : {{liste_quiz.Level}}</span>
+                </p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    
+    <div class="content-table">
+        <div class="title">
+            <p>Résultat de tes 5 dernières réponses</p>
+        </div>
+        <table class="table">
+            <tr>
+                <th>N°</th>
+                <th>Question</th>
+                <th>Langage</th>
+                <th>Niveau</th>
+                <th>Correction</th>
+                <th>Note / 10</th>
+                <th>Jour/ Heure</th>
+                <th>Detail</th>
+            </tr>
+            {% for liste_answerUser in liste_answerUser %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{liste_answerUser.quiz|truncatewords:7}}</td>
+                <td>{{liste_answerUser.quiz.catgory}}</td>
+                <td>{{liste_answerUser.quiz.catgory.Level}}</td>
+                <td>{{liste_answerUser.getResponseValide}}</td>
+                <td>{{liste_answerUser.getResponseNote}}</td>
+                <td>{{liste_answerUser.date_created|timesince}}</td>
+                <td><a href="#" class="fa fa-eye"></a></td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="7">Tu n'as pas encore répondu aux questions, si tu le fais tu les verras apparaître ici</td>
+              </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+  
+{% endblock content %}
+
+

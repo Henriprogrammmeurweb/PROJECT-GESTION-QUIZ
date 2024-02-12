@@ -1,0 +1,39 @@
+@font-face 
+{
+    font-family: "Poppins";
+    src: local("Poppins"), url("/static/fonts/Poppins-Regular.ttf") format("truetype");
+    
+}
+body{
+    font-family: "Poppins",Verdana, Geneva, Tahoma, sans-serif;
+    
+}
+html{
+    font-size: 14px;
+}
+table tr td{
+    font-size: 13px;
+}
+table tr th{
+    background-color: rgb(18, 89, 131);
+    color: white;
+}
+.content .contenus .contenu .link a{
+    width: 250px;
+    padding: 20px;
+}
+.content .contenu .link a{
+    padding: 20px;
+    
+}
+.content .contenus .contenu .link input{
+    padding: 25px;
+    width: 100%;
+}
+.content .contenus .contenu form button{
+    padding: 15px;
+   
+}
+.content .contenus .contenu .titre{
+    margin-top: 25px;
+}

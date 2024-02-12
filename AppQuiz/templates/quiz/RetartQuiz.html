@@ -1,0 +1,38 @@
+{% extends "base/base.html" %}
+{% block content %}
+
+
+
+<style>
+
+    .content{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        margin: 50px;
+        background-color: rgba(104, 120, 126, 0.15);
+        padding: 30px;
+    }
+    .content form button{
+        padding: 16px;
+    }
+    
+</style>
+
+<div class="content">
+    <div class="contenus">
+        {% if user.is_authenticated %}
+        <p>Avertissement ! Chèr(e) {{user.getUser}} si tu cliques sur Confirmer le rececomment toutes les réponses aux questions de cette serie seront suprimer définitivement dans la base de données. <br>
+        Si tu es d'accord avec ça, confirmer et reprennez à zéro</p>
+        <p>Score : {{getCategoryId.getScore}}</p>
+        {% endif %}
+    </div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Confirmer le recommencement!</button>
+    </form>
+</div>
+
+  
+{% endblock content %}

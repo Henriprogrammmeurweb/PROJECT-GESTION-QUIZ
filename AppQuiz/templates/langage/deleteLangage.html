@@ -1,0 +1,56 @@
+{% extends "base/base.html" %}
+{% block content %}
+
+<style>
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .content .contenu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: rgba(180, 180, 180, 0.15);
+        width: 480px;
+        padding: 15px;
+        margin-top: 25px;
+    }
+
+    .content .contenu form {
+        width: 100%;
+    }
+
+    .content .contenu form input {
+        margin-bottom: 8px;
+    }
+
+    .content .contenu form button {
+        padding: 15px;
+        margin-top: 15px;
+    }
+</style>
+
+
+<div class="content">
+    <div class="contenu">
+        <div id="message">
+        <p>Voulez-vous vraiment supprimer cette catégorie ?</p>
+        {% for message in messages %}
+          <div class="alert alert-warning">
+            <p>{{message}}</p>
+          </div>
+        {% endfor %}
+        </div>
+        <form action="" method="post" id="FormData">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-block" id="addlevel">Supprimer</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
+
