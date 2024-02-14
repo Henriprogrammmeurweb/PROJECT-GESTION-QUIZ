@@ -18,11 +18,18 @@ class QuizCategory(models.Model):
     date_created=models.DateTimeField(auto_now_add=True)
     date_updated=models.DateTimeField(auto_now=True)
 
-
+    @property
     def getNumberQuiz(self):
         getListQuiz=self.quiz_set.all()
         numberquiz=len([ligne.catgory for ligne in getListQuiz])
         return numberquiz
+    
+    @property
+    def numberQuiz(self):
+        listeQuizCategory=self.quiz_set.all()
+        getQuiz=[ligne.catgory for ligne in listeQuizCategory]
+        return len(getQuiz)
+
     
     def __str__(self):
         return self.title

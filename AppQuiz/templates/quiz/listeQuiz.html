@@ -16,9 +16,9 @@
 
     .contents {
         display: flex;
-        justify-content: flex-start;
+        justify-content: center;
         align-items: center;
-        flex-wrap: wrap;
+        flex-direction: column;
     }
 
     .contents .questions {
@@ -88,6 +88,12 @@
     .contents .questions .response .responses form button {
         margin-top: 10px;
     }
+    .contents .no-question{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
 </style>
 
 
@@ -155,9 +161,12 @@
         </div>
     </div>
     {% empty %}
-    <div class="alert alert-danger">
-        <p>Aucun quiz n'a été trouvé pour cette série !</p>
-    </div>
+
+        <div class="alert alert-warning question">
+            <p>Aucun quiz n'a été trouvé pour cette série, vous avez terminé cette série peut être!</p>
+        </div>
+
+
     {% endfor %}
 </div>
 {% endblock content %}

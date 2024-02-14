@@ -54,3 +54,28 @@ class FormUserAdminAddUser(forms.ModelForm):
             'confirme_password':forms.PasswordInput(attrs={"class":'form-control'}),
             'user_permissions':forms.SelectMultiple(attrs={"class":'form-control'}),
         }
+
+
+class FormUserAdminUpdateUser(forms.ModelForm):
+    class Meta:
+        model=models.MyUser
+
+        fields=[
+                'username',
+                'last_name',
+                'email',
+                'genre',
+                'user_permissions',
+                'is_superuser',
+                'is_active',
+                
+        ]
+
+        widgets={
+            'username':forms.TextInput(attrs={"class":'form-control'}),
+            'last_name':forms.TextInput(attrs={"class":'form-control'}),
+            'email':forms.EmailInput(attrs={"class":'form-control'}),
+            'genre':forms.Select(attrs={"class":'form-control'}),
+            'confirme_password':forms.PasswordInput(attrs={"class":'form-control'}),
+            'user_permissions':forms.SelectMultiple(attrs={"class":'form-control'}),
+        }

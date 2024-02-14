@@ -49,7 +49,7 @@
     </div>
     <div class="content-table">
         <div class="title">
-            <p>Listes des utilisateurs</p>
+            <p>Listes des catégories des Quiz que : {{getUserId}} a joué </p>
         </div>
         {% for message in messages %}
         <div class="alert alert-success">
@@ -59,31 +59,29 @@
         <table class="table">
             <tr>
                 <th>N°</th>
-                <th>Username</th>
-                <th>Last_Name</th>
-                <th>Genre</th>
-                <th>Email</th>
-                <th>date_created</th>
-                <th>Quiz</th>
-                <td>Modifier</td>
-                <td>Supprimer</td>
+                <th>Langage</th>
+                <th>Niveau</th>
+                <th>Total Questions</th>
+                <th>Bonnes réponses</th>
+                <th>Mauvaises réponses</th>
+                <th>Score</th>
+                <th>Reste</th>
             </tr>
-            {% for liste_user in liste_user %}
+            {% for get_userPlay in get_userPlay %}
               <tr>
                 <td>{{forloop.counter}}</td>
-                <td>{{liste_user.username}}</td>
-                <td>{{liste_user.last_name}}</td>
-                <td>{{liste_user.genre}}</td>
-                <td>{{liste_user.email}}</td>
-                <td>{{liste_user.date_created}}</td>
-                <td><a href="{% url 'GetQuizUserPlay' liste_user.id %}">Quiz</a></td>
-                <td><a href="{% url 'adminUpdateUser' liste_user.id %}">modifier</a></td>
-                <td><a href="{% url 'adminDeleteUser' liste_user.id %}">supprimer</a></td>
+                <td>{{get_userPlay.quiz__catgory__title}}</td>
+                <td>{{get_userPlay.quiz__catgory__Level__title}}</td>
+                <td>{{get_userPlay.quiz}}</td>
+                <td>{{get_userPlay.Nombre_reponse}}</td>
+                <td>{{get_userPlay.ResponseFalse}}</td>
+                <td>{{get_userPlay.Score}} %</td>
+                <td>{{get_userPlay.Termine}}</td>
 
               </tr>
               {% empty %}
               <tr>
-                <td colspan="9">Pas d'utilisateurs dans la base de données</td>
+                <td colspan="6">Pas d'utilisateurs dans la base de données</td>
               </tr>
             {% endfor %}
         </table>

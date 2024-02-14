@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum, Count, Avg
 from AppAccount.models import MyUser
 from AppQuiz.models import Quiz
 
@@ -32,7 +33,9 @@ class AnswerUserQuiz(models.Model):
     date_updated=models.DateTimeField(auto_now=True)
 
 
-
+    
+    def getTotalQuiz(self):
+        return Count(self.quiz)
 
     @property
     def getResponseNote(self):

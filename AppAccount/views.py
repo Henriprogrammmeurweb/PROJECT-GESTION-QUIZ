@@ -1,9 +1,10 @@
 from django.shortcuts import redirect, render
+from django.db.models import Sum, Max, Min, Count
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required,permission_required 
 from django.contrib import messages
 from AppQuiz.models import Quiz,QuizCategory,LevelQuiz
-from AppAswer.models import AnswerUserQuiz
+from AppAswer.models import AnswerUserQuiz, AnswerQuiz,AnswerUserQuiz
 from .import models
 from .import forms
 
@@ -138,3 +139,81 @@ def adminAddUser(request):
     else:
         form=forms.FormUserAdminAddUser()
     return render(request, 'user/crud/addUser.html',{"form":form})
+
+
+
+
+@login_required
+def adminUpdateUser(request,id):
+    getUserId=models.MyUser.objects.get(id=id)
+    form=forms.FormUserAdminUpdateUser(instance=getUserId)
+    if request.method == "POST":
+        form=forms.FormUserAdminUpdateUser(request.POST,instance=getUserId)
+        if form.is_valid():
+            form.save()
+            messages.warning(request, 'Informations modifiées avec succès !')
+            return redirect('listeUser')
+        else:
+            messages.warning(request, 'Modification non apportée ! ')
+    else:
+        form=forms.FormUserAdminUpdateUser(instance=getUserId)
+    return render(request, 'user/crud/adminUpdateUser.html',{"form":form})
+
+
+@login_required
+def adminDeleteUser(request,id):
+    getUserId=models.MyUser.objects.get(id=id)
+    if request.method == "POST":
+        try:
+            getUserId.delete()
+            messages.warning(request, 'Utilisateur supprimé avec succès !')
+            return redirect('listeUser')
+        except:
+            messages.warning(request, "Impossible de supprimer cet utilisateur !")
+    return render(request, 'user/crud/adminDeleteUser.html', {"getUserId":getUserId})
+
+
+@login_required
+def GetQuizUserPlay(request, id):
+    getUserId=models.MyUser.objects.get(id=id)
+    get_userPlay=AnswerUserQuiz.objects.filter(user=getUserId,
+                                               response_possible__responseTrue=True
+                                               ).values('quiz__catgory__id','quiz__catgory__title',
+                                                        'quiz__catgory__Level__title').annotate(
+                                                            Nombre_reponse=Count('quiz__question'),
+                                                            NoteTotal=Sum('quiz__note'))
+    for item in get_userPlay:
+        categorysQuiz=QuizCategory.objects.get(id=item['quiz__catgory__id'])
+        liste_quiz=Quiz.objects.filter(catgory=categorysQuiz)
+        totalNote=sum([ligne.note for ligne in liste_quiz])
+        NumberQuizForCategory=len([ligne.catgory for ligne in liste_quiz])
+        item['quiz']=NumberQuizForCategory
+        item['Score']=format((item['NoteTotal'] * 100) / totalNote, '.0f')
+        series=AnswerQuiz.objects.filter(quiz__catgory=categorysQuiz).filter(id__in=AnswerUserQuiz.objects.filter(
+            user=getUserId).values_list('response_possible__id', flat=True)).count()
+        ResponseFalse=AnswerQuiz.objects.filter(quiz__catgory=categorysQuiz, responseTrue=False).filter(
+            id__in=AnswerUserQuiz.objects.filter(user=getUserId).values_list('response_possible__id', flat=True)).count()
+        item['ResponseFalse']=ResponseFalse
+        if series == NumberQuizForCategory:
+            item['Termine'] = "Terminé"
+        else :
+            item['Termine'] = "Non"
+    context={
+                "getUserId":getUserId,
+                "get_userPlay":get_userPlay
+            }
+    return render(request, "user/detail/GetQuizUserPlay.html", context)
+
+
+
+
+# def my_view(request):
+#     getUserId = request.user.id
+#     user_play_data = AnswerUserQuiz.objects.filter(user=getUserId).values('quiz__catgory__title', 'quiz__catgory__Level__title').annotate(Nombre_reponse=Count('quiz__question'))
+
+#     # Appliquer votre méthode d'instance à chaque instance de AnswerUserQuiz
+#     for item in user_play_data:
+#         answer_user_quiz_instance = AnswerUserQuiz.objects.get(pk=item['id'])  # Supposons que 'id' est le champ clé primaire de AnswerUserQuiz
+#         item['nombre_possible_reponses'] = answer_user_quiz_instance.calculate_possible_answers()
+
+#     return render(request, 'template.html', {'user_play_data': user_play_data})

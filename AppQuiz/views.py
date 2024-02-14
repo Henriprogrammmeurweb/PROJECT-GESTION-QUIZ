@@ -28,7 +28,6 @@ def startquiz(request,id):
 
 @login_required
 def FirstQuiz(request,id):
-    """This Function display a first quiz if user click to start"""
     listesMessages=[
         'Bravo Continues comme ça 🧡 ', 
         'Bravo ! Bien joué bonne réponse, courage 🧡', 
@@ -77,6 +76,9 @@ def FirstQuiz(request,id):
     }
     print(context['list_quiz'])
     return render(request, 'quiz/listeQuiz.html',context)
+
+
+
 
 
 def deletestartQuiz(request,id):
